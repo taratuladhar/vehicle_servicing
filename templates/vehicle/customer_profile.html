@@ -1,0 +1,26 @@
+{% extends 'vehicle/base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/styleforms.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<br><br><br><br><br>
+<div class="center" style="display: flex; align-items: center;">
+  <img style="width: 250px; height: 250px; margin-left: 200px;" src="{{ customer.profile_pic.url }}" alt=""><br><br>
+  <div class="details" style="flex: 1; margin-left:40px; font-size:larger; ">
+    <h3 ><b>Name : {{user.username}}</b></h3> <br>
+    <h3 ><b>Email : {{customer.email}}</b></h3> <br>
+    <h3 ><b>Mobile : {{customer.contact}}</b></h3> <br>
+    <h3 ><b>Address : {{customer.address}}</b></h3> <br> 
+  </div>
+</div>
+
+<div style="text-align: center; width:600px; margin-left: 200px; ">
+  <a href="{% url 'edit_profile' %}"><button class="button" ><span><b>Edit Profile </b></span></button></a>
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+{% endblock content %}

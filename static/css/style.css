@@ -1,0 +1,95 @@
+
+body, h1, h2, h3, p, ul, li {
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar styles */
+.navbar {
+    background-color: #333;
+    color: white;
+    padding: 15px 10px;
+    display: flex;
+    justify-content: space-between; /* Align items in a row with space between */
+    align-items: center;
+    height: 70px;
+    font-size: larger;
+    font-family:  sans-serif;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0; /* Remove default margin */
+    padding: 0; /* Remove default padding */
+    display: flex; /* Display list items in a row */
+    align-items: center;
+}
+
+.navbar li {
+    margin: 0 10px; /* Add margin around list items */
+    padding: 0;
+    /* Align text to the left */
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    padding-top: 10px;
+    
+}
+/* Hero section styles */
+.hero{
+    margin-top: 0px;
+    text-align: center;
+}
+.hero img {
+    width: 100%;
+    max-height: 700px;
+    max-width: fit-content;
+    object-fit: cover;
+
+}
+
+/* Services section styles */
+.services {
+    padding: 40px;
+    background-color: #f0f0f0;
+    text-align: center;
+    font-family:  sans-serif;
+    font-size: larger;
+    
+}
+.flex-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.service {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: white;
+    height: 400px;
+    width: 700px;
+    margin-bottom: 25px;
+    margin-right: 32px;
+}
+
+.service h3 {
+    color: #333;
+}
+
+.service p {
+    color: #666;
+}
+.service img{
+    height: 350px;
+    width: 580px;
+}
+
+@media (max-width: 768px) {
+    .service {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+}

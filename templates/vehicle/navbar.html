@@ -1,0 +1,25 @@
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock css %}
+<nav class="navbar"> 
+    <ul>
+    <li class="navbar-logo"><a href="{% url 'home' %}"><h1>VSMS.</h1></a></li>
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'home' %}#about">About</a></li>
+
+    {% if user.is_authenticated %}
+        <li><a href="{% url 'appointment' %}">Appointment</a></li>
+        {% comment %} <li><a href="#">User</a></li> {% endcomment %}
+        {% if user.is_admin %}
+            <li><a href="#">Admin</a></li>
+        {% else %}
+            <li><a href="{% url 'profile' %}">{{user.username}}</a></li>
+        {% endif %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+    {% else %}
+        <li><a href="{% url 'login-page' %}">Login</a></li>
+        <li><a href="{% url 'register-page' %}">Register</a></li>
+    {% endif %}
+</ul>
+</nav>

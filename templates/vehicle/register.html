@@ -1,0 +1,54 @@
+{% extends 'vehicle/base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/styleforms.css' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="container">
+      <h2>Registration</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+          <label for="username">Username</label>
+          <input type="text" placeholder="Enter Username" name="username" required>
+        </div>
+  
+        <div>
+          <label for="email">Email</label>
+          <input type="email" placeholder="Enter Email" name="email" required>
+        </div>
+  
+        <div>
+          <label for="password">Password</label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+        </div>
+  
+        {% comment %} <div>
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" placeholder="Confirm Password" name="confirm_password" required>
+        </div> {% endcomment %}
+  
+        <div>
+          <label for="contact">Contact Number</label>
+          <input type="text" placeholder="Enter Contact Number" name="contact" required>
+        </div>
+  
+        <div>
+          <label for="address">Address</label>
+          <input type="text" placeholder="Enter Address" name="address" required>
+        </div>
+        <br>
+        <div>
+          <label for="image">Image</label>
+          <input type="file" placeholder="Insert image" name="image" required>
+        </div>
+        <br>
+        <button type="submit">Register</button>
+  
+        <div class="form-footer">
+          Already have an account? <a href="{% url 'login-page'%}">Login</a>
+        </div>
+      </form>
+    </div>
+    {% endblock content %}

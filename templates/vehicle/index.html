@@ -1,0 +1,52 @@
+{% extends 'vehicle/base.html' %}   
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock css %}
+
+{% block content %}   
+    <section class="hero">
+        <img src="{% static 'images/hero.jpg'%}" alt="Vehicle Servicing" style="align-items:center">
+    </section>
+
+    <section class="services" id="about">
+        <h1 ><b>Services Provided</b></h1>
+        <br>
+        <div class="flex-container">
+            <div class="service">
+                <h3>Washing</h3>
+                <p>Get your vehicle cleaned and shining.</p>
+                <img src="{% static 'images/service2.png'%}" alt="">
+            </div>
+            <div class="service">
+                <h3>Waterless cleaning</h3>
+                <p>Clean vehicles without using traditional water-based washing methods</p>
+                <img src="{% static 'images/waterless.jpg'%}" alt="" >
+            </div>
+            <div class="service">
+                <h3>Engine Oil</h3>
+                <p>Quality engine oil change to keep your vehicle running smoothly.</p>
+                <img src="{% static 'images/engineoil.jpg'%}" alt="" >
+            </div>
+            <div class="service">
+                <h3>Leakage Check</h3>
+                <p>Thorough inspection for any leaks and necessary fixes.</p>
+                <img src="{% static 'images/leakage.jpg'%}" alt="" >
+            </div>
+            <div class="service">
+                <h3>Maintenance</h3>
+                <p>Regular maintenance to ensure your vehicle's longevity.</p>
+                <img src="{% static 'images/service5.png'%}" alt="" >
+            </div>
+            <div class="service">
+                <h3>Full Servicing</h3>
+                <p>Comprehensive servicing covering all aspects of your vehicle.</p>
+                <img src="{% static 'images/service4.png'%}" alt="" >
+            </div>
+            
+        </div>
+        
+    </section>
+
+    {% endblock content %}
+

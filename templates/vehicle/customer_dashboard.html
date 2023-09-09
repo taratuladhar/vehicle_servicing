@@ -1,0 +1,55 @@
+{% extends 'vehicle/base.html' %}   
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+{% endblock css %}
+
+{% block content %} 
+
+<br><br><br><br><br>
+<div class="row">
+    <div class="col-12 col-m-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 style="color:red; text-align:center" >Appointments</h3>
+
+            </div>
+            <div class="card-content">
+                <table>
+                    <thead>
+        <tr>
+          <th>Vehicle Number</th>
+          <th>Vehicle model</th>
+          <th>Wheels</th>
+          <th>Problem Description</th>
+          <th>Servicing</th>
+          <th>Submission date</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+                    </thead>
+                    <tbody>
+        {% for c in customers %}
+        <tr>
+          <td>{{c.vehicle_number}}</td>
+          <td>{{c.vehicle_model}}</td>
+          <td>{{c.wheeler}}</td>
+          <td>{{c.description}}</td>
+          <td>{{c.servicing}}</td>
+          <td>{{c.submission_date}}</td>
+          <td>{{c.status}}</td>
+          <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'update-customer' c.id  %}">&#9998;</a></td>
+          <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'delete-customer' c.id  %}">&#10008;</a></td>
+          {% comment %} <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'customer-delete-request' enq.id  %}">&#10008;</a></td> {% endcomment %}
+        </tr>
+        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
