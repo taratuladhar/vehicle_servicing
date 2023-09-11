@@ -50,6 +50,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CSRF_COOKIE_SECURE = False # Set to False in development if not using HTTPS
+
+
 ROOT_URLCONF = 'vehicle_servicing.urls'
 
 TEMPLATES = [

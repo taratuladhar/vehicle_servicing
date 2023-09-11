@@ -5,6 +5,9 @@ from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required,user_passes_test
+from django.contrib.auth.hashers import make_password
+from django.urls import reverse
+
 
 # Create your views here.
 def homePage(request):
@@ -16,40 +19,53 @@ def loginPage(request):
 def registerPage(request):
     return render(request,"vehicle/register.html")
 
+def appointmentPage(request):
+    return render(request,"vehicle/appointment.html")
+
+from django.contrib.auth.hashers import make_password  # Import make_password
+
 def register(request):
-    userForm=forms.CustomerUserForm()
-    customerForm=forms.CustomerForm()
-    mydict={'userForm':userForm,'customerForm':customerForm}
-    if request.method=='POST':
-        userForm=forms.CustomerUserForm(request.POST)
-        customerForm=forms.CustomerForm(request.POST)
+    userForm = forms.CustomerUserForm()
+    customerForm = forms.CustomerForm()
+    mydict = {'userForm': userForm, 'customerForm': customerForm}
+    
+    if request.method == 'POST':
+        userForm = forms.CustomerUserForm(request.POST)
+        customerForm = forms.CustomerForm(request.POST)
+        
         if userForm.is_valid() and customerForm.is_valid():
-            user=userForm.save()
-            user.set_password(user.password)
+            user = userForm.save(commit=False)
+            user.password = make_password(userForm.cleaned_data['password'])
             user.save()
-            customer=customerForm.save(commit=False)
-            customer.user=user
+            
+            customer = customerForm.save(commit=False)
+            customer.user = user
             customer.save()
-            my_customer_group = Group.objects.get_or_create(name='CUSTOMER')
-            my_customer_group[0].user_set.add(user)
-        return HttpResponseRedirect('login-page')
-    return render(request,'vehicle/register.html',context=mydict)
+            
+            # Get or create the customer group and add the user to it
+            my_customer_group, created = Group.objects.get_or_create(name='CUSTOMER')
+            my_customer_group.user_set.add(user)
+            
+            return HttpResponseRedirect('/login')
+    
+    return render(request, 'vehicle/register.html', context=mydict)
+
 
 def is_customer(user):
     return user.groups.filter(name='CUSTOMER').exists()
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        
+        print(user)
         if user is not None:
-            login(request, user)
-            return redirect('customer_dashboard')
+            auth_login(request, user)
+            return redirect('/')
         else:
-            # Handle invalid login credentials, display an error message, etc.
-            return redirect('login-page')
+            error_message = "Invalid login credentials. Please try again."
+            return render(request, 'vehicle/login.html', {'error_message': error_message})
     return render(request, 'vehicle/login.html')
     
 def logout(request):
