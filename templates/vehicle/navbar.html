@@ -14,7 +14,8 @@
         {% if user.is_admin %}
             <li><a href="#">Admin</a></li>
         {% else %}
-            <li><a href="{% url 'profile' %}">{{user.username}}</a></li>
+            {% comment %} <li><a href="{% url 'profile' %}">{{user.username}}</a></li> {% endcomment %}
+            <li><a href="#">{{user.username}}</a></li>
         {% endif %}
         <li><a href="{% url 'logout' %}">Logout</a></li>
     {% else %}
