@@ -6,29 +6,30 @@
 
 {% block content %}
 
+<br><br><br>
+<h3 style="text-align:center;"><b>UPDATE CUSTOMER</b></h3>
+<br><br>
 <div>
     <form method="post"  enctype="multipart/form-data" style="margin-left:200px;margin-right:200px;">
         {% csrf_token %}
-            <label for="username">Username</label>
-            {% render_field userForm.username class="form-control" placeholder="Username" %}
-
-            <label for="email">Email</label>
-            {% render_field userForm.mobile class="form-control" placeholder="Mobile" %}
-            
-            <label for="mobile">Mobile</label>
-            {% render_field customerForm.mobile class="form-control" placeholder="Mobile" %}
-            
-            <label for="address">Address</label>
-            {% render_field customerForm.address class="form-control" placeholder="Address" %}
-         
-            <label for="password">Password</label>
-            {% render_field userForm.password class="form-control" placeholder="Password" %} <br><br>
-          
-            <label for="profile_pic">Profile Picture</label>
-            {% render_field customerForm.profile_pic class="form-control" placeholder="Profile Picture" %}
+        <label for="{{ userForm.username.id_for_label }}">Username</label>
+        {{ userForm.username }}
+        
+        <label for="{{ userForm.email.id_for_label }}">Email</label>
+        {{ userForm.email }}
+        
+        <label for="{{ customerForm.contact.id_for_label }}">Contact</label>
+        {{ customerForm.contact }}
+        
+        <label for="{{ customerForm.address.id_for_label }}">Address</label>
+        {{ customerForm.address }}
+        
+        <label for="{{ customerForm.profile_pic.id_for_label }}">Profile Picture</label>
+        {{ customerForm.profile_pic }}
   <br><br>
-      <input type="submit" value="Edit Your Profile">
+      <input type="submit" value="Update">
     </form>
   </div>
+  <br><br><br><br>
 
 {% endblock content %}

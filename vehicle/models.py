@@ -8,6 +8,9 @@ class Customer(models.Model):
     address=models.CharField(max_length=40)
     profile_pic=models.ImageField(upload_to='profile_pic/CustomerProfilePic/',null=True,blank=True)
     @property
+    def get_name(self):
+        return self.user.username
+    @property
     def get_instance(self):
         return self
     def __str__(self):
@@ -32,9 +35,10 @@ class Appointment(models.Model):
     vehicle_model = models.CharField(max_length=50)   # Car model field
     description = models.TextField(blank=True)
     wheelers = models.CharField(max_length=10, choices=WHEELER_CHOICES)
-
     servicing = models.ManyToManyField('self', choices=VEHICLE_SERVICES, blank=True, symmetrical=False)
     submission_date = models.DateTimeField()
+    status=models.CharField(default="Pending", max_length=20)
+    customer=models.ForeignKey('customer', on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return f"{self.vehicle_number} - {self.vehicle_model}"

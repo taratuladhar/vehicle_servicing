@@ -2,11 +2,12 @@
 from django.shortcuts import render,HttpResponse,redirect
 from . import forms,models
 from django.contrib.auth.models import Group
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.hashers import make_password
 from django.urls import reverse
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -19,10 +20,9 @@ def loginPage(request):
 def registerPage(request):
     return render(request,"vehicle/register.html")
 
-def appointmentPage(request):
-    return render(request,"vehicle/appointment.html")
+# def appointmentPage(request):
+#     return render(request,"vehicle/appointment.html")
 
-from django.contrib.auth.hashers import make_password  # Import make_password
 
 def register(request):
     userForm = forms.CustomerUserForm()
@@ -73,28 +73,103 @@ def logout(request):
     return redirect('/')
 
 @login_required
+def customer_add_appointment(request):
+    # if request.method=='POST':
+    #     form = forms.AppointmentForm(request.POST)
+    #     if form.is_valid():
+    #         form.save()
+    #         return redirect('/')  # Create an 'appointment_success' URL
+    # else:
+    #     form = forms.AppointmentForm()
+
+    # context = {'form': form}
+    # return render(request, 'vehicle/customer_add_appointment.html', context)
+    customer=models.Customer.objects.get(user_id=request.user.id)
+    enquiry=forms.AppointmentForm()
+    if request.method=='POST':
+        enquiry=forms.AppointmentForm(request.POST)
+        if enquiry.is_valid():
+            # customer=models.Customer.objects.get(user_id=request.user.id)
+            enquiry_x=enquiry.save(commit=False)
+            enquiry_x.customer=customer
+            enquiry_x.save()
+            
+            # selected_services = request.POST.getlist('servicing')
+            # enquiry_x.servicing.set(selected_services)
+            
+            # enquiry_x.save()
+            return redirect('customer_dashboard')
+        else:
+            print("form is invalid")
+            print(enquiry.errors)
+            
+    return render(request,'vehicle/customer_add_appointment.html',{'enquiry':enquiry,'customer':customer})
+
+
+
+@login_required
 def customer_dashboard(request):
-     customer=models.Customer.objects.get(user_id=request.user.id)
-     return render(request,'vehicle/customer_dashboard.html',{'customer':customer})
+    enquiry=models.Appointment.objects.all().order_by('-id')
+    customers=[]
+    for enq in enquiry:
+        customer=models.Customer.objects.get(id=enq.customer_id)
+        customers.append(customer)
+    return render(request, 'vehicle/customer_dashboard.html',{'data':zip(customers,enquiry)})
+  
+@login_required  
+def customer_delete_appointment(request,pk):
+    # customer=models.Customer.objects.get(user_id=request.user.id)
+    
+    # enquiry=models.Appointment.objects.get(id=pk)
+    # enquiry.delete()
+    # return redirect('customer_dashboard')    
+
+     # Use get_object_or_404 to retrieve the appointment if it exists
+    enquiry = get_object_or_404(models.Appointment, id=pk)
+
+    # Check if the logged-in user is the owner of the appointment
+    if enquiry.customer.user != request.user:
+        # If not, return an error response or handle it as needed
+        return HttpResponseForbidden("You do not have permission to delete this appointment.")
+
+    # Delete the appointment
+    enquiry.delete()
+
+    # Redirect to the customer dashboard
+    return redirect('customer_dashboard')
 
 @login_required
 def customer_profile(request):
     customer=models.Customer.objects.get(user_id=request.user.id)
     return render(request,'vehicle/customer_profile.html',{'customer':customer})
 
+@login_required
 def edit_customer_profile(request):
     customer=models.Customer.objects.get(user_id=request.user.id)
     user=models.User.objects.get(id=customer.user_id)
+    print("1")
     userForm=forms.CustomerUserForm(instance=user)
-    customerForm=forms.CustomerForm(request.FILES,instance=customer)
+    customerForm=forms.CustomerForm(instance=customer)
+    print("2")
+
     mydict={'userForm':userForm,'customerForm':customerForm,'customer':customer}
     if request.method=='POST':
+        print("3")
+
         userForm=forms.CustomerUserForm(request.POST,instance=user)
+        print("4")
         customerForm=forms.CustomerForm(request.POST,instance=customer)
-        if userForm.is_valid() and customerForm.is_valid():
+        print("5")
+        if userForm.is_valid():
+            print("6")
             user=userForm.save()
-            user.set_password(user.password)
+            print("7")
+            print("8")
             user.save()
+            print("9")
+        if customerForm.is_valid():
             customerForm.save()
-            return HttpResponseRedirect('customer_profile')
+            print("10")
+            
+            return redirect('customer_profile')
     return render(request,'vehicle/edit_customer_profile.html',context=mydict)

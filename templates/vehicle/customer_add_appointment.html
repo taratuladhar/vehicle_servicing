@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'vehicle/base.html' %}
 {% load static %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/styleforms.css' %}">
@@ -11,12 +11,12 @@
         {% csrf_token %}
         <div>
           <label for="vehicle_number">Vehicle number</label>
-          <input type="text" placeholder="Enter Car number" name="car_number" required>
+          <input type="text" placeholder="Enter Vehicle number" name="vehicle_number" required>
         </div>
   
         <div>
           <label for="vehicle_model">Vehicle model</label>
-          <input type="text" placeholder="Enter Car model" name="car_model" required>
+          <input type="text" placeholder="Enter Vehicle model" name="vehicle_model" required>
         </div>
   
         <div>
@@ -26,7 +26,7 @@
   
         <div>
             <label for="wheeler">Wheeler:</label>
-            <select name="wheeler">
+            <select name="wheelers" required>
               <option value="two">2-wheeler</option>
               <option value="four">4-wheeler</option>
             </select>
@@ -37,10 +37,10 @@
             <label for="servicing">Servicing:</label><br>
             <input type="checkbox" name="servicing" value="1"> Washing <br>
             <input type="checkbox" name="servicing" value="2"> Waterless cleaning <br>
-            <input type="checkbox" name="servicing" value="1"> Engine oil <br>
-            <input type="checkbox" name="servicing" value="2"> Leakage <br>
-            <input type="checkbox" name="servicing" value="1"> Maintenance <br>
-            <input type="checkbox" name="servicing" value="2"> Full Servicing <br>
+            <input type="checkbox" name="servicing" value="3"> Engine oil <br>
+            <input type="checkbox" name="servicing" value="4"> Leakage <br>
+            <input type="checkbox" name="servicing" value="5"> Maintenance <br>
+            <input type="checkbox" name="servicing" value="6"> Full Servicing <br>
         </div>
         <br>
         <div>

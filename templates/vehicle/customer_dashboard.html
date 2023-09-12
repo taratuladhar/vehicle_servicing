@@ -5,45 +5,51 @@
 {% endblock css %}
 
 {% block content %} 
-
-<br><br><br><br><br>
+<br><br>
+<button type="button" class="btn btn-info" style="margin-left: 30px;"><a href="{% url 'customer_profile' %}" style="text-decoration:none; color: black; height:60px; width:200px; "><b><h4>View Profile</h4></b></a></button>
+<button type="button" class="btn btn-warning" style="margin-left:100px;"><a href="{% url 'customer_add_appointment' %}" style="text-decoration:none; color: black; height:60px; width:200px; "><b><h4>Make Appointment</h4></b></a></button>
+<br><br><br>
 <div class="row">
     <div class="col-12 col-m-12 col-sm-12">
         <div class="card">
             <div class="card-header">
-                <h3 style="color:red; text-align:center" >Appointments</h3>
+                <h3 style="color:red; text-align:center; color:black; margin-left:20px; margin-right:20px;" >Appointments</h3>
 
             </div>
             <div class="card-content">
-                <table>
+                <table class="table"  >
                     <thead>
-        <tr>
-          <th>Vehicle Number</th>
-          <th>Vehicle model</th>
-          <th>Wheels</th>
-          <th>Problem Description</th>
-          <th>Servicing</th>
-          <th>Submission date</th>
-          <th>Status</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-                    </thead>
-                    <tbody>
-        {% for c in customers %}
-        <tr>
-          <td>{{c.vehicle_number}}</td>
-          <td>{{c.vehicle_model}}</td>
-          <td>{{c.wheeler}}</td>
-          <td>{{c.description}}</td>
-          <td>{{c.servicing}}</td>
-          <td>{{c.submission_date}}</td>
-          <td>{{c.status}}</td>
-          <td><a  style="color:red; text-decoration:none;font-size:25px;" href="{% url 'update-customer' c.id  %}">&#9998;</a></td>
-          <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'delete-customer' c.id  %}">&#10008;</a></td>
-          {% comment %} <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'customer-delete-request' enq.id  %}">&#10008;</a></td> {% endcomment %}
-        </tr>
-        {% endfor %}
+                        <tr>
+                        <th>Vehicle Number</th>
+                        <th>Vehicle model</th>
+                        <th>Wheels</th>
+                        <th>Problem Description</th>
+                        {% comment %} <th>Servicing</th> {% endcomment %}
+                        <th>Submission date</th>
+                        <th>Status</th>
+                        <th>Delete</th>
+                        </tr>
+                                    </thead>
+                                    <tbody>
+                        {% for c,enq in data %}
+                        <tr>
+                        <td>{{enq.vehicle_number}}</td>
+                        <td>{{enq.vehicle_model}}</td>
+                        <td>{{enq.wheelers}}</td>
+                        <td>{{enq.description}}</td>
+                         {% comment %} <td>{{enq.servicing}}</td>  {% endcomment %}
+                        {% comment %} <td>
+                            {% for service in enq.servicing.all %}
+                                {{ service.get_service_display }}
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td> {% endcomment %}
+                        <td>{{enq.submission_date}}</td>
+                        <td>{{enq.status}}</td>
+                        <td><a style="color:red; text-decoration:none;font-size:25px" href="{% url 'customer_delete_appointment' enq.id  %}">&#10008;</a></td>
+                        {% comment %} <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'customer-delete-request' enq.id  %}">&#10008;</a></td> {% endcomment %}
+                        </tr>
+                        {% endfor %}
 
                     </tbody>
                 </table>
