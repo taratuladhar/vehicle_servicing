@@ -42,3 +42,11 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.vehicle_number} - {self.vehicle_model}"
+    
+class Feedback(models.Model):
+    date=models.DateField(auto_now=True)
+    by=models.CharField(max_length=40)
+    message=models.CharField(max_length=500)
+    
+    def __str__(self):
+        return self.by

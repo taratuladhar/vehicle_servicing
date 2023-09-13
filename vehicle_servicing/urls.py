@@ -20,5 +20,7 @@ urlpatterns = [
     path('customer_delete_appointment/<int:pk>', views.customer_delete_appointment,name='customer_delete_appointment'),
     path("customer_profile/",views.customer_profile, name='customer_profile'),
     path("edit_customer_profile/",views.edit_customer_profile, name='edit_customer_profile'),
-    # path(" ",views.customer_dashboard, name='customer_dashboard'),
+    path("customer_feedback/",views.customer_feedback, name='customer_feedback'),
+    # path("feedback_sent/",views.feedback_sent, name='feedback_sent'),
+    
 ]

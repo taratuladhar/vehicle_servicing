@@ -30,3 +30,9 @@ class AppointmentForm(forms.ModelForm):
         model=models.Appointment
         fields=['vehicle_number', 'vehicle_model', 'description', 'wheelers', 'servicing', 'submission_date']
            
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model=models.Feedback
+        fields=['by','message']
+        by = forms.CharField(required=True)
+    message = forms.CharField(required=True, widget=forms.Textarea(attrs={'rows': 3}))

@@ -6,8 +6,9 @@ from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.contrib.auth import authenticate, login as auth_login,logout as auth_logout
 from django.contrib.auth.decorators import login_required,user_passes_test
 from django.contrib.auth.hashers import make_password
-from django.urls import reverse
+# from django.urls import reverse
 from django.shortcuts import get_object_or_404
+
 
 
 # Create your views here.
@@ -173,3 +174,23 @@ def edit_customer_profile(request):
             
             return redirect('customer_profile')
     return render(request,'vehicle/edit_customer_profile.html',context=mydict)
+
+@login_required
+def customer_feedback(request):
+    customer=models.Customer.objects.get(user_id=request.user.id)
+    print("1")
+    feedback=forms.FeedbackForm()
+    print("2")
+    if request.method=='POST':
+        print("3")
+        feedback=forms.FeedbackForm(request.POST)
+        print("4")
+        if feedback.is_valid():
+            print("5")
+            feedback.save()
+            
+        else:
+            print("form is invalid")
+            print(feedback.errors)
+        return render(request,'vehicle/feedback_sent.html',{'customer':customer})
+    return render(request,'vehicle/customer_feedback.html',{'feedback':feedback,'customer':customer})
