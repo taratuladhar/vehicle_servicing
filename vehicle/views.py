@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 
 
 
+
 # Create your views here.
 def homePage(request):
     return render(request,'vehicle/index.html')
@@ -20,10 +21,6 @@ def loginPage(request):
 
 def registerPage(request):
     return render(request,"vehicle/register.html")
-
-# def appointmentPage(request):
-#     return render(request,"vehicle/appointment.html")
-
 
 def register(request):
     userForm = forms.CustomerUserForm()
@@ -108,14 +105,26 @@ def customer_add_appointment(request):
 
 
 
+# @login_required
+# def customer_dashboard(request):
+#     enquiry=models.Appointment.objects.all().order_by('id')
+#     customers=[]
+#     for enq in enquiry:
+#         customer=models.Customer.objects.get(id=enq.customer_id)
+#         customers.append(customer)
+#     return render(request, 'vehicle/customer_dashboard.html',{'data':zip(customers,enquiry)})
+
 @login_required
 def customer_dashboard(request):
-    enquiry=models.Appointment.objects.all().order_by('-id')
-    customers=[]
-    for enq in enquiry:
-        customer=models.Customer.objects.get(id=enq.customer_id)
-        customers.append(customer)
-    return render(request, 'vehicle/customer_dashboard.html',{'data':zip(customers,enquiry)})
+    print("Current user:", request.user)
+    customer = request.user.customer
+    print("Customer instance:", customer)
+
+    appointments = models.Appointment.objects.filter(customer=customer).order_by('id')
+    print("Appointments:", appointments)
+
+    return render(request, 'vehicle/customer_dashboard.html', {'appointments': appointments})
+
   
 @login_required  
 def customer_delete_appointment(request,pk):
@@ -194,3 +203,4 @@ def customer_feedback(request):
             print(feedback.errors)
         return render(request,'vehicle/feedback_sent.html',{'customer':customer})
     return render(request,'vehicle/customer_feedback.html',{'feedback':feedback,'customer':customer})
+

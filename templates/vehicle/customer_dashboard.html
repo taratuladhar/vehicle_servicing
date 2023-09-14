@@ -33,23 +33,15 @@
                         </tr>
                                     </thead>
                                     <tbody>
-                        {% for c,enq in data %}
+                        {% for enq in appointments %}
                         <tr>
-                        <td>{{enq.vehicle_number}}</td>
-                        <td>{{enq.vehicle_model}}</td>
-                        <td>{{enq.wheelers}}</td>
-                        <td>{{enq.description}}</td>
-                         {% comment %} <td>{{enq.servicing}}</td>  {% endcomment %}
-                        {% comment %} <td>
-                            {% for service in enq.servicing.all %}
-                                {{ service.get_service_display }}
-                                {% if not forloop.last %}, {% endif %}
-                            {% endfor %}
-                        </td> {% endcomment %}
-                        <td>{{enq.submission_date}}</td>
-                        <td>{{enq.status}}</td>
-                        <td><a style="color:red; text-decoration:none;font-size:25px" href="{% url 'customer_delete_appointment' enq.id  %}">&#10008;</a></td>
-                        {% comment %} <td><a style="color:blue; text-decoration:none;font-size:25px;"href="{% url 'customer-delete-request' enq.id  %}">&#10008;</a></td> {% endcomment %}
+                            <td>{{ enq.vehicle_number }}</td>
+                            <td>{{enq.vehicle_model}}</td>
+                            <td>{{enq.wheelers}}</td>
+                            <td>{{enq.description}}</td>
+                            <td>{{enq.submission_date}}</td>
+                            <td>{{enq.status}}</td>
+                            <td><a style="color:red; text-decoration:none;font-size:25px" href="{% url 'customer_delete_appointment' enq.id  %}">&#10008;</a></td>
                         </tr>
                         {% endfor %}
 

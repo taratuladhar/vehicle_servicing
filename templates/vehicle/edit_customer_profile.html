@@ -14,6 +14,7 @@
         {% csrf_token %}
         <label for="{{ userForm.username.id_for_label }}">Username</label>
         {{ userForm.username }}
+        {% comment %} {% render_field userForm.username %} {% endcomment %}
         
         <label for="{{ userForm.email.id_for_label }}">Email</label>
         {{ userForm.email }}
