@@ -8,7 +8,7 @@
 
 <br><br><br><br><br>
 <div class="center" style="display: flex; align-items: center;">
-  <img style="width: 250px; height: 250px; margin-left: 200px;" src="{{ customer.CustomerProfilePic.url }}" alt=""><br><br>
+  <img style="width: 250px; height: 250px; margin-left: 200px;" src="{{ MEDIA_URL }}{{ customer.CustomerProfilePic.url }}" alt=""><br><br>
   <div class="details" style="flex: 1; margin-left:40px; font-size:larger; ">
     <h3 ><b>Name : {{user.username}}</b></h3> <br>
     <h3 ><b>Email : {{user.email}}</b></h3> <br>
